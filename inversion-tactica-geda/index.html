@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark" data-base="../">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GEDA · Estrategia de inversión táctica con momentum | Tu Amigo Inversor</title>
+<meta name="description" content="GEDA es una estrategia de inversión táctica basada en momentum: cada mes rota entre los 7 activos con mayor fortaleza relativa. Resultados, posiciones y cómo replicarla.">
+<meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="article">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Tu Amigo Inversor">
+<meta property="og:title" content="GEDA · Estrategia de inversión táctica con momentum">
+<meta property="og:description" content="Cada mes, un algoritmo selecciona los 7 activos con mayor fortaleza relativa entre más de 700. Resultados, posiciones y cómo replicarla.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GEDA · Estrategia de inversión táctica con momentum">
+<meta name="twitter:description" content="Rotación mensual entre los 7 activos con mayor fortaleza relativa. Sin intervención humana.">
+<meta property="og:image" content="https://tuamigoinversor.com/assets/img/og-tuamigoinversor.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://tuamigoinversor.com/assets/img/og-tuamigoinversor.jpg">
+
+<!-- Tema sin parpadeo: se aplica antes de pintar -->
+<script>
+(function(){try{var t=localStorage.getItem('tai-theme-v3');if(!t){t='light'}document.documentElement.setAttribute('data-theme',t)}catch(e){}})();
+</script>
+
+<!-- Fuentes -->
+<link rel="stylesheet" href="../assets/css/fonts.css">
+
+<!-- Única librería externa: Chart.js (diferida) -->
+<script defer src="../assets/js/chart.umd.js"></script>
+<script defer src="../assets/js/tai.js"></script>
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Article",
+   "headline": "GEDA · Estrategia de inversión táctica con momentum",
+   "inLanguage": "es-ES",
+   "mainEntityOfPage": "https://tuamigoinversor.com/inversion-tactica-geda/",
+   "author": {
+    "@type": "Person",
+    "name": "Tu Amigo Inversor"
+   }
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "¿Cuántos cambios tiene la cartera a lo largo del año?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Entre 2017 y 2025, GEDA ha hecho de media unas 14 sustituciones de posiciones al año (entre 8 y 22), repartidas en aproximadamente 7 de cada 10 meses. 2025 fue el año con menos cambios de su historia (8 sustituciones). Cada mes el sistema indica exactamente qué comprar y qué vender; si no hay cambios, no hay que hacer nada. Estos cambios implican comisiones y pueden tener efecto fiscal, y las rentabilidades publicadas no los incluyen."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Qué ETF uso desde España?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Para la parte de índices y sectores se utilizan ETF en formato UCITS, que cumplen la normativa europea (MiFID II) y permiten una gestión eficiente desde España. Muchos ETF estadounidenses no están disponibles para inversores europeos; en ese caso, la alternativa habitual es un ETF UCITS que siga el mismo índice o sector. No respondo consultas sobre qué producto concreto usar en cada caso: la información es la misma para todos."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Qué pasa si todo el mercado cae?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "GEDA no tiene un filtro de momentum positivo: siempre mantiene 7 posiciones y elige las más fuertes de cada categoría, aunque esas posiciones estén cayendo. No pasa a efectivo, por lo que en mercados bajistas puede sufrir caídas, como la del -19,6% de 2018."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Cuánto puede llegar a caer?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "La mayor caída histórica de la estrategia, medida con cierres mensuales, es del -19,6%. En 129 meses ha habido 3 con caídas superiores al 10%. Son datos pasados: una caída futura puede ser mayor."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Es asesoramiento financiero?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. La información es meramente informativa y no constituye asesoramiento financiero ni una recomendación personalizada. Cada inversor debe hacer su propio análisis y decidir según su situación personal."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/ficha.css">
+<style>
+/* ===== Estilo alegre ===== */
+.hero::before{background:radial-gradient(circle,color-mix(in srgb,var(--accent-2) 30%,transparent),transparent 65%)}
+.hero::after{background:radial-gradient(circle,color-mix(in srgb,var(--accent) 24%,transparent),transparent 65%)}
+.strat-hero h1{background:linear-gradient(95deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.section.alt{background:linear-gradient(180deg,var(--bg-2),color-mix(in srgb,var(--bg-2) 50%,var(--bg)))}
+.btn-primary{box-shadow:0 10px 24px color-mix(in srgb,var(--accent) 38%,transparent)}
+.btn-ghost{border-width:2px;border-color:var(--accent);color:var(--accent);font-weight:700}
+.btn-ghost:hover{background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.tech-step .step-n{background:var(--accent);color:var(--accent-ink)}
+.tile{background:var(--c-geda);color:#1a1200}
+.stat{border-top:4px solid var(--accent)}.stat:nth-child(2){border-top-color:var(--accent-2)}.stat:nth-child(3){border-top-color:var(--c-geda)}.stat:nth-child(4){border-top-color:var(--pos)}
+.top-col h4{color:var(--accent)}.top-col:nth-child(2) h4{color:var(--accent-2)}.top-col:nth-child(3) h4{color:var(--c-geda)}.top-col:nth-child(4) h4{color:var(--pos)}
+.pcard{border-top:4px solid var(--c-geda)}
+.m-card .m-ic{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}
+.panel,.m-card,.stat,.tech-step,.top-col,.pcard,.slot-group,.not-do,.hero-panel{box-shadow:0 10px 28px color-mix(in srgb,var(--accent) 9%,transparent)}
+.tl-bar{box-shadow:none}
+.callout .icon{color:var(--accent-2)}
+</style>
+<link rel="icon" href="../assets/img/logo-tai.jpg" type="image/jpeg">
+<link rel="apple-touch-icon" href="../assets/img/logo-tai.jpg">
+<!-- Analítica sin cookies (GoatCounter) -->
+<script data-goatcounter="https://tuamigoinversor.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- SVG sprite (iconos estilo Lucide) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M5 7h14M5 7l-3 7a4 4 0 0 0 6 0L5 7zM19 7l-3 7a4 4 0 0 0 6 0l-3-7z"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4 20a1 1 0 0 0 .9 1.5h14.2A1 1 0 0 0 20 20l-6-11V3"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+</svg>
+
+<!-- =========================== CABECERA =========================== -->
+<header class="site-header" id="header">
+  <nav class="container nav" aria-label="Navegación principal">
+    <a href="../index.html" class="logo" aria-label="Tu Amigo Inversor, inicio"><img class="logo-mark" src="../assets/img/logo-tai.jpg" width="40" height="40" alt="">Tu Amigo Inversor</a>
+    <ul class="nav-links">
+      <li class="has-sub"><button type="button" class="sub-toggle" aria-expanded="false" aria-haspopup="true">Estrategias <svg class="icon" aria-hidden="true"><use href="#i-down"/></svg></button>
+        <ul class="sub">
+          <li><a href="../index.html#estrategias">Las seis estrategias</a></li>
+          <li><a href="../comparador/index.html">Compáralas frente a frente</a></li>
+          <li><a href="../index.html#test" data-quiz>Test de riesgo (3 min)</a></li>
+          <li><a href="../combinar-estrategias/index.html">Combinar estrategias</a></li>
+        </ul></li>
+      <li class="has-sub"><button type="button" class="sub-toggle" aria-expanded="false" aria-haspopup="true">Cómo funciona <svg class="icon" aria-hidden="true"><use href="#i-down"/></svg></button>
+        <ul class="sub">
+          <li><a href="../empieza-aqui/index.html">Explicado desde cero</a></li>
+          <li><a href="../ejemplo-practico/index.html">Un ejemplo práctico, paso a paso</a></li>
+          <li><a href="../metodologia/index.html">Metodología y cálculos</a></li>
+          <li><a href="../glosario/index.html">Glosario</a></li>
+        </ul></li>
+      <li><a href="../informes/index.html">Informes</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="../sobre-mi/index.html">Sobre mí</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Cambiar a modo claro">
+        <svg class="icon i-sun"><use href="#i-sun"/></svg><svg class="icon i-moon"><use href="#i-moon"/></svg>
+      </button>
+      <a href="../index.html#suscripcion" class="btn btn-primary btn-sm nav-cta magnetic">Quiero el informe</a>
+      <button class="icon-btn burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu"><svg class="icon"><use href="#i-menu"/></svg></button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="../index.html#estrategias">Las seis estrategias</a></li>
+      <li><a href="../comparador/index.html">Compáralas frente a frente</a></li>
+      <li><a href="../index.html#test" data-quiz>Test de riesgo (3 min)</a></li>
+      <li><a href="../combinar-estrategias/index.html">Combinar estrategias</a></li>
+      <li><a href="../empieza-aqui/index.html">Explicado desde cero</a></li>
+      <li><a href="../ejemplo-practico/index.html">Un ejemplo práctico, paso a paso</a></li>
+      <li><a href="../metodologia/index.html">Metodología y cálculos</a></li>
+      <li><a href="../glosario/index.html">Glosario</a></li>
+      <li><a href="../informes/index.html">Informes</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="../sobre-mi/index.html">Sobre mí</a></li>
+      <li><a href="../index.html#suscripcion" class="btn btn-primary" style="margin-top:.5rem">Quiero el informe gratis</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<!-- =========================== HERO GEDA =========================== -->
+<section class="hero strat-hero" aria-labelledby="hero-title" style="--c:var(--c-geda)">
+  <div class="container hero-grid">
+    <div class="reveal">
+      <nav class="crumbs" aria-label="Migas de pan"><a href="../index.html">Inicio</a><span aria-hidden="true">/</span><a href="../index.html#estrategias">Estrategias</a><span aria-hidden="true">/</span><span aria-current="page">GEDA</span></nav>
+      <p class="badge"><span class="live" aria-hidden="true"></span>Asignación táctica · Momentum · Revisión mensual</p>
+      <h1 id="hero-title">GEDA</h1>
+      <p class="kicker">Mi estrategia preferida y donde tengo la mayor parte de mi inversión</p>
+      <p class="lead">Un sistema para capturar las tendencias más fuertes del mercado: cada mes, un algoritmo selecciona los 7 activos con mayor fortaleza relativa, sin intervención humana.</p>
+      <div class="risk risk-lg" style="--c:var(--c-geda)"><span>Riesgo</span><div class="risk-bars" role="img" aria-label="Nivel de riesgo 4 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><span class="mono">4/5 · Perfil agresivo</span></div>
+      <div class="cta-row">
+        <a href="../index.html#suscripcion" class="btn btn-primary magnetic">Quiero el informe gratis <svg class="icon"><use href="#i-arrow"/></svg></a>
+        <a href="../informes/index.html" class="btn btn-ghost">Ver un informe de ejemplo</a>
+      </div>
+      <blockquote class="pull">«Te cuento la estrategia real que uso con mi dinero, con total transparencia.»</blockquote>
+    </div>
+
+    <div class="hero-panel reveal" aria-labelledby="hp-label">
+      <div class="hp-head">
+        <div><small id="hp-label">Rentabilidad anualizada desde 2021</small>
+<div class="hp-value mono pos">+39,7%</div></div>
+        <small class="mono" style="font-weight:700;color:var(--text)">GEDA</small>
+      </div>
+      <p class="hp-sub">Con dinero real desde 2021. Desde 2016, contando los años simulados: +40,6% al año.</p>
+      <div class="hp-kpis">
+        <div class="kpi"><span>Máx. caída</span><b class="mono neg">-19,6%</b></div>
+        <div class="kpi"><span>2025</span><b class="mono pos">+56,6%</b></div>
+        <div class="kpi"><span>2026 (ene–sep)</span><b class="mono pos">+100,2%</b></div>
+      </div>
+      <div class="hp-kpis hp-kpis-2">
+        <div class="kpi"><span>Sharpe</span><b class="mono">1,55</b></div>
+        <div class="kpi"><span>Volatilidad</span><b class="mono">24,1%</b></div>
+        <div class="kpi"><span>Meses positivos</span><b class="mono">65%</b></div>
+      </div>
+      <p class="asof"><span class="asof-dot" aria-hidden="true"></span><span>Datos a <strong>30 sep 2026</strong> · La web se actualiza cada trimestre; las posiciones de cada mes, en el informe</span></p>
+      <div class="chart-box"><canvas id="gedaChart" role="img" aria-label="Evolución acumulada de GEDA (base 100) de ene 2016 a sep 2026, con la zona de caída sombreada"></canvas></div>
+      <p class="chart-note">Evolución acumulada con las rentabilidades mensuales de GEDA (base 100, escala logarítmica), de ene 2016 a sep 2026. Rentabilidades en euros, sin comisiones ni impuestos. Rentabilidades pasadas no garantizan rentabilidades futuras.</p>
+    </div>
+  </div>
+</section>
+<div class="container ficha-cover-wrap"><figure class="ficha-cover reveal"><img src="../assets/img/estrategias/geda-banner.webp" width="1600" height="600" alt="Pantallas con gráficos de cotización sobre un escritorio" style="object-position:center 50%" decoding="async"></figure></div>
+
+<!-- =========================== EN RESUMEN =========================== -->
+<section class="section alt" id="resumen" aria-labelledby="sum-title" style="--c:#f59e00">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">En resumen</span>
+      <h2 id="sum-title">Lo esencial de GEDA en un minuto</h2>
+      <p>Antes de entrar en cómo funciona por dentro: para quién es, qué puedes esperar en los años malos, cuánto trabajo te da y qué parte de su historial es con dinero real.</p>
+    </div>
+    <div class="summary-grid">
+      <article class="m-card reveal"><h3><svg class="icon"><use href="#i-user"/></svg>Para quién es</h3><ul><li><strong>Sí</strong>, si toleras caídas fuertes y quieres una estrategia que cambia cada mes hacia lo que mejor está funcionando.</li><li><strong>No</strong>, si te quitaría el sueño ver tu inversión caer un 20% o no vas a poder revisar el informe cada mes.</li><li><strong>Su principal inconveniente:</strong> no pasa a liquidez: en una caída general del mercado sigue invertida. Además lleva acciones sueltas.</li></ul></article>
+      <article class="m-card reveal"><h3><svg class="icon"><use href="#i-alert"/></svg>Qué esperar</h3><ul><li>Mejor año con dinero real: 2025, +56,6% (el mejor de todo el historial, 2020, +100,5%, es simulado).</li><li>Peor año: 2022, +3,9%. Ningún año completo en negativo desde 2016 (2016–2020 simulados).</li><li>Peor caída: −19,6%, en 2018 (simulada). La peor con dinero real: −13,6%. Con 10.000 €, −19,6% son 8.040 €.</li><li>Meses malos sí hay: en julio de 2026 cayó un −13,6% en un solo mes.</li></ul></article>
+      <article class="m-card reveal"><h3><svg class="icon"><use href="#i-clock"/></svg>Cuánto trabajo te da</h3><ul><li>7 posiciones: 1 índice, 2 sectores de EE. UU., 2 acciones de EE. UU. y 2 europeas, con el mismo importe.</li><li>Se revisa cada mes: el día 1 miras el informe y cambias solo lo que indique.</li><li>Necesitas un bróker con ETF UCITS y acciones de EE. UU. y Europa.</li></ul></article>
+      <article class="m-card reveal"><h3><svg class="icon"><use href="#i-flask"/></svg>Con dinero real o simulado</h3><ul><li>Con dinero real desde 2021 (5 años y 9 meses): +39,7% al año.</li><li>Incluyendo los años simulados (2016–2020): +40,6% al año.</li><li>Peor caída con dinero real: −13,6% (contando la simulación: −19,6%).</li></ul></article>
+    </div>
+    <p class="cards-note">Datos a 30 de septiembre de 2026, en euros, sin comisiones ni impuestos. Lo que pasó no garantiza lo que pasará.</p>
+  </div>
+</section>
+
+
+<!-- =========================== QUÉ ES EL MOMENTUM =========================== -->
+<section class="section" id="momentum" aria-labelledby="mom-title">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Qué es el momentum</span>
+      <h2 id="mom-title">Invertir en lo que está funcionando, de forma sistemática</h2>
+      <p>En lugar de analizar si una empresa es «buena» o «barata», el momentum selecciona los activos que mejor se han comportado en el pasado reciente, con la idea de que esa fortaleza tiende a mantenerse durante un tiempo. No intenta predecir el futuro: reacciona a lo que el precio ya está mostrando.</p>
+    </div>
+    <div class="method">
+      <article class="m-card reveal spot"><div class="m-ic"><svg class="icon"><use href="#i-chart"/></svg></div>
+        <h3>Una anomalía muy estudiada</h3>
+        <p>El efecto momentum se documenta en la literatura académica desde los años 90 y en muchos mercados y clases de activos: los ganadores recientes tienden a seguir superando al resto durante meses. No hay una única explicación aceptada; las habituales son la reacción lenta a la información y el comportamiento gregario de los inversores.</p></article>
+      <article class="m-card reveal spot"><div class="m-ic"><svg class="icon"><use href="#i-refresh"/></svg></div>
+        <h3>Momentum relativo</h3>
+        <p>GEDA compara activos entre sí dentro de cada categoría y se queda con los más fuertes. No exige que un activo esté subiendo en términos absolutos: elige los mejores de su grupo, también cuando el grupo entero cae.</p></article>
+      <article class="m-card reveal spot"><div class="m-ic"><svg class="icon"><use href="#i-alert"/></svg></div>
+        <h3>No es una garantía</h3>
+        <p>El momentum puede sufrir cuando las tendencias se giran de golpe o el mercado se queda lateral. Que un efecto exista en el pasado no asegura que se repita en el futuro.</p></article>
+    </div>
+    <p class="lede-note reveal">A diferencia de <a href="../cartera-permanente-conservadora-roca/index.html">ROCA</a> e <a href="../cartera-inversion-crecimiento-impulso/index.html">IMPULSO</a>, carteras permanentes con una composición prácticamente estable, GEDA modifica los activos en cartera según las tendencias de cada momento (asignación táctica).</p>
+  </div>
+</section>
+
+<!-- =========================== LA TÉCNICA =========================== -->
+<section class="section alt" id="tecnica" aria-labelledby="tec-title">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">La técnica de GEDA</span>
+      <h2 id="tec-title">Cómo se elige cada posición</h2>
+      <p>Cada mes, un algoritmo desarrollado en Python analiza un amplio universo de activos utilizando exclusivamente precios. Es una estrategia propia de tipo momentum, con actualización mensual.</p>
+    </div>
+
+    <ol class="tech">
+      <li class="tech-step reveal"><span class="step-n" aria-hidden="true">1</span><div>
+        <h3>Cuatro categorías que no compiten entre sí</h3>
+        <p>Los activos se agrupan en cuatro categorías estancas: índices globales, sectores EE. UU., acciones EE. UU. y acciones europeas. Un activo solo compite con los de su propia categoría, de modo que la cartera siempre tiene la misma estructura.</p>
+        <div class="slots slots-sm" role="list" aria-label="Estructura de la cartera">
+          <div class="slot-group" role="listitem"><div class="slot-tiles"><span class="tile">1</span></div><h4>1 índice global</h4><p>Oro, bonos, inmobiliario, materias primas, renta variable…</p></div>
+          <div class="slot-group" role="listitem"><div class="slot-tiles"><span class="tile">2</span><span class="tile">3</span></div><h4>2 sectores EE. UU.</h4><p>Los más fuertes del momento.</p></div>
+          <div class="slot-group" role="listitem"><div class="slot-tiles"><span class="tile">4</span><span class="tile">5</span></div><h4>2 acciones EE. UU.</h4><p>S&amp;P 500, Nasdaq o Dow Jones.</p></div>
+          <div class="slot-group" role="listitem"><div class="slot-tiles"><span class="tile">6</span><span class="tile">7</span></div><h4>2 acciones europeas</h4><p>IBEX, DAX, CAC, MIB o AEX.</p></div>
+        </div>
+      </div></li>
+
+      <li class="tech-step reveal"><span class="step-n" aria-hidden="true">2</span><div>
+        <h3>Se eligen los más fuertes de cada categoría</h3>
+        <p>Dentro de cada categoría, el algoritmo mide la fortaleza relativa de cada activo con varios criterios de momentum calculados solo con precios y se queda con el más consistente. Es una selección por consistencia, no por el mejor periodo concreto.</p>
+      </div></li>
+
+      <li class="tech-step reveal"><span class="step-n" aria-hidden="true">3</span><div>
+        <h3>Sin filtro de momentum positivo</h3>
+        <p>No hay una condición de «solo si está subiendo». La cartera siempre tiene 7 posiciones, aunque el mercado esté cayendo: elige los mejores de cada categoría, aunque el mejor sea el que menos cae. Esto simplifica el sistema, pero significa que no se protege pasando a efectivo.</p>
+      </div></li>
+
+      <li class="tech-step reveal"><span class="step-n" aria-hidden="true">4</span><div>
+        <h3>Mismo importe, y sin tocar nada durante el mes</h3>
+        <p>Las 7 posiciones tienen asignado el mismo importe y se mantienen hasta el día 1 del mes siguiente, cuando se repite el análisis. Si no hay cambios, no hay que hacer nada.</p>
+      </div></li>
+    </ol>
+
+    <div class="callout reveal" role="note"><svg class="icon"><use href="#i-alert"/></svg><p><strong>ETF UCITS (MiFID II):</strong> muchos ETF estadounidenses no están disponibles para inversores europeos. Para índices y sectores se utilizan ETF equivalentes en formato UCITS, que replican los mismos índices y sectores. Para elegirlo, lo que hay que comprobar es que siga el mismo índice o sector. No respondo consultas sobre qué producto concreto usar en cada caso: la información es la misma para todos.</p></div>
+  </div>
+</section>
+
+<!-- =========================== HISTORIAL DE POSICIONES =========================== -->
+<section class="section" id="historial" aria-labelledby="his-title">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Historial de posiciones</span>
+      <h2 id="his-title">Qué ha tenido GEDA en cartera desde 2016</h2>
+      <p>Cada barra es un activo y el tiempo que ha permanecido en la cartera. Así se ve cómo el sistema rota: qué mantiene mientras sigue mostrando fortaleza y qué abandona cuando la pierde.</p>
+      <p class="asof asof-center"><span class="asof-dot" aria-hidden="true"></span><span>Datos a <strong>30 sep 2026</strong> · las posiciones del mes en curso solo llegan por correo</span></p>
+    </div>
+
+    <div class="tl-wrap reveal"><div class="tl" id="timeline" aria-label="Línea de tiempo de posiciones por categoría"></div></div>
+    <p class="fineprint centered hint-m">Desliza horizontalmente para recorrer los años.</p>
+
+    <div class="stat-row reveal">
+      <div class="stat"><b class="mono">14</b><span>sustituciones de posiciones al año de media (2017–2025; entre 8 y 22)</span></div>
+      <div class="stat"><b class="mono">69%</b><span>de los meses tiene al menos un cambio en la cartera</span></div>
+      <div class="stat"><b class="mono">5,6</b><span>meses de permanencia media por posición (mediana: 4)</span></div>
+      <div class="stat"><b class="mono">44 de 160</b><span>posiciones han durado un solo mes</span></div>
+    </div>
+    <div class="callout reveal" role="note"><svg class="icon"><use href="#i-alert"/></svg><p><strong>La rotación tiene un coste.</strong> Cada sustitución implica comprar y vender, con comisiones y posible efecto fiscal. Las rentabilidades publicadas no incluyen ninguno de los dos.</p></div>
+
+    <h3 class="sub-h reveal">Los activos que más meses han estado en cartera</h3>
+    <div class="tops reveal"><div class="top-col"><h4>Índice global</h4><ol><li><b class="mono">QQQ</b><span>49 meses</span></li><li><b class="mono">GLD</b><span>31 meses</span></li><li><b class="mono">DBC</b><span>23 meses</span></li></ol></div><div class="top-col"><h4>Sectores EE. UU.</h4><ol><li><b class="mono">XLK</b><span>67 meses</span></li><li><b class="mono">XLF</b><span>38 meses</span></li><li><b class="mono">XLU</b><span>37 meses</span></li></ol></div><div class="top-col"><h4>Acciones EE. UU.</h4><ol><li><b class="mono">NVDA</b><span>49 meses</span></li><li><b class="mono">TSLA</b><span>18 meses</span></li><li><b class="mono">DVN</b><span>15 meses</span></li></ol></div><div class="top-col"><h4>Acciones Europa</h4><ol><li><b class="mono">SLR.MC</b><span>35 meses</span></li><li><b class="mono">RHM.DE</b><span>30 meses</span></li><li><b class="mono">ARGX.BR</b><span>23 meses</span></li></ol></div></div>
+
+    <h3 class="sub-h reveal">Posiciones de septiembre 2026</h3>
+    <ul class="pos-grid reveal">
+      <li class="pcard"><span class="pos-g">Índice global</span><b class="mono">DBC</b><span>Materias primas</span></li>
+      <li class="pcard"><span class="pos-g">Sector EE. UU.</span><b class="mono">XLK</b><span>Tecnología</span></li>
+      <li class="pcard"><span class="pos-g">Sector EE. UU.</span><b class="mono">XLE</b><span>Energía</span></li>
+      <li class="pcard"><span class="pos-g">Acción EE. UU.</span><b class="mono">SNDK</b><span>Sandisk Corporation</span></li>
+      <li class="pcard"><span class="pos-g">Acción EE. UU.</span><b class="mono">LITE</b><span>Lumentum Holdings</span></li>
+      <li class="pcard"><span class="pos-g">Acción Europa</span><b class="mono">STMPA.PA</b><span>STMicroelectronics</span></li>
+      <li class="pcard"><span class="pos-g">Acción Europa</span><b class="mono">ASML.AS</b><span>ASML Holding</span></li>
+    </ul>
+    <p class="fineprint centered reveal">Ejemplo informativo de las posiciones del mes anterior. No constituye una recomendación de inversión.</p>
+  </div>
+</section>
+
+<!-- =========================== RESULTADOS =========================== -->
+<section class="section alt" id="resultados" aria-labelledby="res-title">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Resultados históricos</span>
+      <h2 id="res-title">Mes a mes desde 2016</h2>
+      <p class="asof asof-center"><span class="asof-dot" aria-hidden="true"></span><span>Datos a <strong>30 sep 2026</strong> · La web se actualiza cada trimestre; las posiciones de cada mes, en el informe · Rentabilidades en euros, sin comisiones ni impuestos</span></p>
+    </div>
+
+    <div class="table-wrap heat-wrap reveal"><table class="heat" id="heat"><caption class="sr-only">Rentabilidades mensuales de GEDA por año</caption></table></div>
+    <div id="realNote"></div>
+
+    <div class="metrics-grid reveal">
+      <div class="panel">
+        <h3>Métricas (ene 2016 – sep 2026)</h3>
+        <table class="data cmp-mini">
+          <thead><tr><th scope="col">Métrica</th><th scope="col" style="color:var(--c-geda)">GEDA</th><th scope="col">S&amp;P 500 (en EUR)</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Rentabilidad anualizada</th><td class="mono pos best">+40,6%</td><td class="mono">+10,7%</td></tr>
+            <tr><th scope="row">Volatilidad</th><td class="mono">24,1%</td><td class="mono">15,0%</td></tr>
+            <tr><th scope="row">Ratio de Sharpe</th><td class="mono pos best">1,55</td><td class="mono">0,94</td></tr>
+            <tr><th scope="row">Máx. caída</th><td class="mono neg best">-19,6%</td><td class="mono neg">-24,8%</td></tr>
+          </tbody>
+        </table>
+        <p class="fineprint">GEDA asume más volatilidad que el S&amp;P 500 (24,1% frente a 15,0%): es una estrategia de perfil agresivo. El ratio de Sharpe mide la rentabilidad obtenida por cada unidad de volatilidad asumida.</p>
+      </div>
+      <div class="panel">
+        <h3>Cómo se ha comportado</h3>
+        <ul class="facts">
+          <li><b class="mono">84 de 129</b><span>meses con rentabilidad positiva (65%)</span></li>
+          <li><b class="mono pos">+30,3%</b><span>mejor mes (ene 2026)</span></li>
+          <li><b class="mono neg">-14,4%</b><span>peor mes (oct 2018)</span></li>
+          <li><b class="mono">3</b><span>meses con caídas superiores al 10% en 129</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub-h reveal">Anatomía de las caídas</h3>
+    <p class="prose reveal" style="margin:0 0 1rem">Las mayores caídas desde un máximo previo, medidas con cierres mensuales. Las caídas pasadas no limitan las futuras: pueden ser mayores.</p>
+    <div class="table-wrap reveal"><table class="data dd-table">
+      <thead><tr><th scope="col">Caída</th><th scope="col">Máximo previo</th><th scope="col">Mínimo</th><th scope="col">Duración de la caída</th><th scope="col">Recuperación del máximo</th></tr></thead>
+      <tbody><tr><td class='mono neg'>-19,6%</td><td>ago 2018</td><td>dic 2018</td><td>4 meses</td><td>abr 2019 (8 meses)</td></tr><tr><td class='mono neg'>-13,6%</td><td>jun 2026</td><td>jul 2026</td><td>1 mes</td><td>Aún no recuperado</td></tr><tr><td class='mono neg'>-13,4%</td><td>ene 2020</td><td>mar 2020</td><td>2 meses</td><td>abr 2020 (3 meses)</td></tr><tr><td class='mono neg'>-10,3%</td><td>ene 2025</td><td>mar 2025</td><td>2 meses</td><td>may 2025 (4 meses)</td></tr><tr><td class='mono neg'>-10,3%</td><td>may 2022</td><td>jun 2022</td><td>1 mes</td><td>oct 2022 (5 meses)</td></tr><tr><td class='mono neg'>-9,8%</td><td>oct 2022</td><td>dic 2022</td><td>2 meses</td><td>jun 2023 (8 meses)</td></tr></tbody></table></div>
+    <p class="fineprint reveal">A 30 sep 2026, GEDA se encuentra un 3,8% por debajo del máximo de junio de 2026.</p>
+  </div>
+</section>
+
+<!-- =========================== CUÁNDO FUNCIONA Y CUÁNDO SUFRE =========================== -->
+<section class="section" id="limites" aria-labelledby="lim-title">
+  <div class="container">
+    <div class="sec-head reveal"><span class="eyebrow">Límites del sistema</span><h2 id="lim-title">Cuándo funciona y cuándo sufre</h2></div>
+    <div class="fit reveal">
+      <div class="fit-col yes"><h3><svg class="icon"><use href="#i-check"/></svg>Donde suele funcionar mejor</h3>
+        <ul><li>Mercados con tendencias claras y sostenidas, como 2019–2020 o 2024–2026, que incluyen sus años de mayor rentabilidad.</li><li>Sectores o compañías que lideran durante varios meses: el sistema las mantiene mientras siguen siendo las más fuertes.</li></ul></div>
+      <div class="fit-col no"><h3><svg class="icon"><use href="#i-x"/></svg>Donde suele sufrir</h3>
+        <ul><li>Giros bruscos: octubre de 2018 (-14,4%) y julio de 2026 (-13,6%) son sus dos peores meses.</li><li>Mercados laterales o sin liderazgo claro: 2021 (+11,7%) y 2022 (+3,9%) fueron, junto con 2018 (+13,2%), sus años más flojos.</li><li>Concentración: con solo 7 posiciones, cada una pesa mucho en el resultado.</li><li>Al no tener filtro de momentum positivo, no se protege pasando a efectivo cuando el mercado cae.</li></ul></div>
+    </div>
+    <div class="not-do reveal"><h3>Qué no hace el sistema</h3>
+      <ul><li>No predice: no intenta anticipar qué activo subirá.</li><li>No analiza fundamentales: usa exclusivamente precios históricos.</li><li>No deja decidir al estado de ánimo: las reglas se aplican igual tras una caída que tras una racha de subidas.</li></ul></div>
+    <div class="risk-ex reveal"><h3>Qué significa la caída máxima en euros</h3>
+      <p>Ejemplo ilustrativo con 5.000 €: la caída máxima histórica de GEDA ha sido del <strong>−19,6%</strong>.</p>
+      <div class="risk-ex-grid">
+        <div><small>Inversión inicial</small><b class="mono">5.000 €</b></div>
+        <div><small>Tras una caída del −19,6%</small><b class="mono neg">4.020 €</b></div>
+        <div><small>Subida necesaria para volver a 5.000 €</small><b class="mono">+24,4%</b></div>
+      </div>
+      <p class="risk-ex-note">Es una ilustración, no una previsión: la caída máxima histórica no es un límite y las caídas futuras pueden ser mayores. Sin comisiones ni impuestos. El historial incluye años de backtest (hasta 2020).</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== COMPORTAMIENTO 2026 =========================== -->
+<section class="section alt" id="comportamiento" aria-labelledby="comp-title">
+  <div class="container narrow">
+    <div class="sec-head reveal"><span class="eyebrow">Comentario</span><h2 id="comp-title">Comportamiento en 2026 (hasta septiembre)</h2></div>
+    <div class="prose reveal">
+      <p>GEDA acumula un <strong>+100,2%</strong> en lo que va de año. Arrancó muy fuerte (+30,3% en enero y +23,7% en abril), tuvo un mes difícil en julio (-13,6%) y ha recuperado parte con +3,5% en agosto y +7,7% en septiembre. El máximo de junio todavía no se ha recuperado del todo.</p>
+      <ul>
+        <li><strong>Índices:</strong> oro (GLD) hasta junio y materias primas (DBC) desde julio.</li>
+        <li><strong>Sectores EE. UU.:</strong> tecnología (XLK) durante todo el año; energía (XLE) desde marzo, en sustitución de comunicaciones (XLC).</li>
+        <li><strong>Acciones EE. UU.:</strong> SNDK durante todo el año como uno de los grandes motores de la estrategia; el segundo valor fue WDC hasta agosto y LITE en septiembre.</li>
+        <li><strong>Acciones europeas:</strong> Siemens Energy hasta mayo y STMicroelectronics desde junio; Solaria hasta julio y ASML desde agosto.</li>
+      </ul>
+    </div>
+    <details class="more reveal"><summary>Comportamiento en 2025</summary>
+      <div class="prose"><p>2025 terminó con un <strong>+56,6%</strong>. El oro actuó como estabilizador al comienzo del año, cuando el mercado sufrió importantes turbulencias, y fue el año con menos sustituciones de posiciones de toda su historia (8 sustituciones).</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- =========================== NOTAS Y FAQ =========================== -->
+<section class="section" id="faq" aria-labelledby="faq-title">
+  <div class="container narrow">
+    <div class="sec-head reveal"><span class="eyebrow">Preguntas frecuentes</span><h2 id="faq-title">Sobre GEDA</h2></div>
+    <div class="faq" id="faqList"></div>
+    <p class="fineprint centered reveal" style="margin-top:1.5rem">Cómo se calculan las cifras: rentabilidades en euros (los activos en USD se convierten con el tipo de cambio del día), precios de Yahoo Finance, sin comisiones ni impuestos. Más detalle en la <a href="../metodologia/index.html" style="text-decoration:underline">metodología</a>.</p>
+  </div>
+</section>
+
+<figure class="name-note container narrow reveal" style="margin:0 auto 2.5rem"><blockquote>«Cada estrategia tiene un nombre con significado. GEDA es el dinero que estoy invirtiendo para pagar la universidad de mis hijos. Ellos ya saben por qué este sistema tiene ese nombre.»</blockquote></figure>
+
+<!-- =========================== OTRAS ESTRATEGIAS =========================== -->
+<section class="section alt tight" aria-labelledby="otras-title">
+  <div class="container">
+    <h2 id="otras-title" class="small-h reveal">Otras estrategias</h2>
+    <ul class="others reveal">
+      <li><a href="../cartera-permanente-conservadora-roca/index.html"><b>ROCA</b><span>Cartera permanente conservadora</span></a></li>
+      <li><a href="../cartera-inversion-crecimiento-impulso/index.html"><b>IMPULSO</b><span>Cartera permanente de crecimiento</span></a></li>
+      <li><a href="../plan-pensiones-moderado-horizonte/index.html"><b>HORIZONTE</b><span>Plan de pensiones moderado</span></a></li>
+      <li><a href="../inversion-tematica-gen-z/index.html"><b>GEN-Z</b><span>Inversión temática</span></a></li>
+      <li><a href="../inversion-criptomonedas-crypto/index.html"><b>CRYPTO</b><span>Criptomonedas</span></a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- =========================== CTA =========================== -->
+<section class="section" id="suscripcion" aria-labelledby="sub-title">
+  <div class="container">
+    <div class="cta reveal cta-simple">
+      <span class="offer">EMPIEZA GRATIS</span>
+      <h2 id="sub-title">Compruébalo en directo, sin compromiso</h2>
+      <p style="font-size:var(--fs-lg)">Cada día 1 te cuento qué tengo en esta estrategia y qué cambio. Si decides seguirla, lo aplicas desde tu propio bróker; si no, no haces nada.</p>
+      <div class="cta-row" style="justify-content:center"><a href="../index.html#suscripcion" class="btn btn-primary magnetic">Quiero el informe gratis <svg class="icon"><use href="#i-arrow"/></svg></a><a href="mailto:info@tuamigoinversor.com" class="btn btn-ghost">Escríbeme: info@tuamigoinversor.com</a></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <a href="../index.html" class="logo" style="margin-bottom:1rem"><img class="logo-mark" src="../assets/img/logo-tai.jpg" width="40" height="40" alt="">Tu Amigo Inversor</a>
+        <p>Te cuento cada mes qué hago con mi dinero: estrategias con reglas claras, sin corazonadas. Lo que hagas con tu dinero lo decides tú.</p>
+        <p style="margin-top:.8rem"><a href="mailto:info@tuamigoinversor.com">info@tuamigoinversor.com</a></p>
+      </div>
+      <nav aria-label="Carteras permanentes"><h2>Cartera permanente</h2><ul><li><a href="../cartera-permanente-conservadora-roca/index.html">ROCA</a></li><li><a href="../cartera-inversion-crecimiento-impulso/index.html">IMPULSO</a></li></ul></nav>
+      <nav aria-label="Asignación táctica"><h2>Asignación táctica</h2><ul><li><a href="../inversion-tactica-geda/index.html">GEDA</a></li><li><a href="../inversion-tematica-gen-z/index.html">GEN-Z</a></li><li><a href="../inversion-criptomonedas-crypto/index.html">CRYPTO</a></li><li><a href="../plan-pensiones-moderado-horizonte/index.html">HORIZONTE <small class="pp">plan de pensiones</small></a></li></ul></nav>
+      <nav aria-label="Herramientas y proyecto"><h2>Empieza por aquí</h2><ul><li><a href="../empieza-aqui/index.html">Explicado desde cero</a></li><li><a href="../ejemplo-practico/index.html">Ejemplo práctico</a></li><li><a href="../comparador/index.html">Comparador</a></li><li><a href="../index.html#test" data-quiz>Test de riesgo</a></li><li><a href="../combinar-estrategias/index.html">Combinar estrategias</a></li><li><a href="../informes/index.html">Informes</a></li><li><a href="../metodologia/index.html">Metodología</a></li><li><a href="../glosario/index.html">Glosario</a></li><li><a href="../blog/index.html">Blog</a></li><li><a href="../sobre-mi/index.html">Sobre mí</a></li></ul></nav>
+      <nav aria-label="Legal"><h2>Legal</h2><ul><li><a href="../aviso-legal/index.html">Aviso legal</a></li><li><a href="../privacidad/index.html">Política de privacidad</a></li><li><a href="../recomendaciones/index.html">Cómo elaboro los informes</a></li></ul></nav>
+    </div>
+    <div class="legal">
+      <p><strong>Aviso:</strong> la información publicada en esta web tiene carácter meramente informativo y no constituye asesoramiento financiero ni una recomendación personalizada de inversión. Las inversiones conllevan riesgo y pueden implicar la pérdida total o parcial del capital. Las rentabilidades pasadas no garantizan rentabilidades futuras. Cada inversor debe realizar su propio análisis y tomar decisiones en función de su situación personal.</p>
+      <p style="margin-top:.8rem">© 2026 Tu Amigo Inversor.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Test de riesgo (ventana emergente) -->
+<div class="modal" id="quizModal" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="quizTitle">
+    <button class="icon-btn modal-close" type="button" aria-label="Cerrar test"><svg class="icon"><use href="#i-x"/></svg></button>
+    <div class="modal-content">
+      <span class="eyebrow">Test de riesgo</span>
+      <h2 id="quizTitle" style="font-size:var(--fs-xl);margin:.3rem 0 .4rem">¿Cuánto riesgo toleras?</h2>
+      <p style="color:var(--muted);margin-bottom:1.4rem">Diez preguntas, unos 3 minutos. Te explico tu tolerancia al riesgo y qué significa en caídas reales.</p>
+      <div class="quiz" id="quiz" aria-live="polite"></div>
+    </div>
+  </div>
+</div>
+
+<button class="icon-btn to-top" id="toTop" type="button" aria-label="Volver arriba"><svg class="icon"><use href="#i-up"/></svg></button>
+<div class="sticky-cta" id="stickyCta"><small><strong>Gratis</strong><br>El informe del día 1 en tu correo</small><a href="../index.html#suscripcion" class="btn btn-primary btn-sm">Quiero el informe</a></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+'use strict';
+const $=(s,c=document)=>c.querySelector(s),$$=(s,c=document)=>[...c.querySelectorAll(s)];
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const alpha=(hex,a)=>{const n=parseInt(hex.slice(1),16);return `rgba(${n>>16},${(n>>8)&255},${n&255},${a})`};
+const hasChart=typeof window.Chart!=='undefined';
+const fmt=(v,d=1)=>v.toLocaleString('es-ES',{minimumFractionDigits:d,maximumFractionDigits:d});
+const pc=(v,d=1)=>(v>0?'+':'')+fmt(v,d)+'%';
+
+/* ---- Datos: rentabilidades mensuales de GEDA (%) · fuente: resumen_estrategias.xlsx, datos a 30-sep-2026 ---- */
+const GEDA={"2016":[-6.17,-0.96,2.1,1.35,4.34,5.72,8.82,-3.09,2.11,1.83,8.34,5.92],"2017":[2.35,6.22,-0.78,-1.0,5.55,-5.87,4.7,2.43,8.95,4.34,4.13,-2.33],"2018":[5.34,1.81,-0.79,-0.42,15.55,10.74,-3.74,7.84,-2.72,-14.41,5.58,-8.49],"2019":[12.1,5.08,2.02,4.52,-2.14,4.91,3.97,2.21,-0.17,-0.67,4.27,0.89],"2020":[14.07,-4.19,-9.61,19.67,3.79,7.16,7.03,22.31,-1.83,-4.24,14.25,8.46],"2021":[-0.48,-3.91,0.86,3.66,1.42,1.37,3.94,4.46,-1.58,3.18,-0.94,-0.5],"2022":[-5.01,1.11,3.52,6.28,7.3,-10.26,5.42,3.18,-6.92,11.8,-0.96,-8.93],"2023":[4.11,-1.75,4.27,-2.83,5.37,4.16,5.83,-0.88,-2.84,-0.44,10.63,4.04],"2024":[6.24,10.27,0.69,-5.82,7.37,6.02,-5.76,-1.57,5.17,6.23,8.51,-0.71],"2025":[10.54,-0.79,-9.57,8.05,17.35,-0.23,5.78,0.72,16.18,0.94,-3.93,3.98],"2026":[30.27,9.51,-0.01,23.73,11.16,6.1,-13.62,3.45,7.65]};
+/* Primer año con dinero real. Poner null para ocultar la distinción simulado/real. */
+/* Totales anuales exactos (estrategias_limpias.xlsx): evitan el redondeo de sumar meses con 2 decimales */
+const YX={"2016": 33.48, "2017": 31.54, "2018": 13.21, "2019": 42.93, "2020": 100.53, "2021": 11.71, "2022": 3.89, "2023": 32.89, "2024": 41.18, "2025": 56.57, "2026": 100.25};
+const REAL_FROM=2021;
+const POS={"labels":["2016-1","2016-2","2016-3","2016-4","2016-5","2016-6","2016-7","2016-8","2016-9","2016-10","2016-11","2016-12","2017-1","2017-2","2017-3","2017-4","2017-5","2017-6","2017-7","2017-8","2017-9","2017-10","2017-11","2017-12","2018-1","2018-2","2018-3","2018-4","2018-5","2018-6","2018-7","2018-8","2018-9","2018-10","2018-11","2018-12","2019-1","2019-2","2019-3","2019-4","2019-5","2019-6","2019-7","2019-8","2019-9","2019-10","2019-11","2019-12","2020-1","2020-2","2020-3","2020-4","2020-5","2020-6","2020-7","2020-8","2020-9","2020-10","2020-11","2020-12","2021-1","2021-2","2021-3","2021-4","2021-5","2021-6","2021-7","2021-8","2021-9","2021-10","2021-11","2021-12","2022-1","2022-2","2022-3","2022-4","2022-5","2022-6","2022-7","2022-8","2022-9","2022-10","2022-11","2022-12","2023-1","2023-2","2023-3","2023-4","2023-5","2023-6","2023-7","2023-8","2023-9","2023-10","2023-11","2023-12","2024-1","2024-2","2024-3","2024-4","2024-5","2024-6","2024-7","2024-8","2024-9","2024-10","2024-11","2024-12","2025-1","2025-2","2025-3","2025-4","2025-5","2025-6","2025-7","2025-8","2025-9","2025-10","2025-11","2025-12","2026-1","2026-2","2026-3","2026-4","2026-5","2026-6","2026-7","2026-8","2026-9"],"stints":[[0,"QQQ",0,3],[0,"GLD",4,4],[0,"VNQ",5,9],[0,"GLD",10,10],[0,"IWM",11,15],[0,"QQQ",16,20],[0,"VGK",21,21],[0,"QQQ",22,28],[0,"DBC",29,29],[0,"QQQ",30,37],[0,"GLD",38,38],[0,"VNQ",39,43],[0,"GLD",44,47],[0,"QQQ",48,50],[0,"GLD",51,54],[0,"QQQ",55,61],[0,"IWM",62,66],[0,"DBC",67,85],[0,"VGK",86,90],[0,"QQQ",91,105],[0,"GLD",106,125],[0,"DBC",126,128],[1,"XLY",0,1],[1,"XLP",0,9],[1,"XLU",2,10],[1,"XLK",10,10],[1,"XLE",11,12],[1,"XLI",13,14],[1,"XLF",11,28],[1,"XLK",15,34],[1,"XLY",29,35],[1,"XLV",35,37],[1,"XLRE",38,46],[1,"XLU",36,50],[1,"XLV",51,55],[1,"XLY",56,62],[1,"XLK",47,63],[1,"XLE",64,67],[1,"XLRE",68,68],[1,"XLF",63,70],[1,"XLK",71,73],[1,"XLP",74,74],[1,"XLU",75,85],[1,"XLE",69,88],[1,"XLI",86,88],[1,"XLK",89,99],[1,"XLF",100,100],[1,"XLK",101,103],[1,"XLF",104,104],[1,"XLU",105,106],[1,"XLF",107,116],[1,"XLC",89,121],[1,"XLK",117,128],[1,"XLE",122,128],[2,"NFLX",0,1],[2,"FSLR",2,2],[2,"AMZN",0,3],[2,"TSN",4,4],[2,"NEM",5,9],[2,"CNX",10,11],[2,"OKE",12,12],[2,"MU",13,13],[2,"CSX",14,14],[2,"MU",15,19],[2,"NVDA",3,23],[2,"HAR",20,23],[2,"TTWO",24,24],[2,"NVDA",25,27],[2,"ALGN",24,32],[2,"NFLX",28,34],[2,"AMD",33,35],[2,"AAP",35,35],[2,"LLY",36,36],[2,"LULU",36,39],[2,"AMD",37,40],[2,"MELI",41,46],[2,"CMG",40,47],[2,"TGT",47,47],[2,"MKTX",48,48],[2,"AMD",49,52],[2,"REGN",53,54],[2,"NVDA",55,59],[2,"PTON",60,60],[2,"MRNA",61,64],[2,"TSLA",48,65],[2,"FCX",65,65],[2,"DVN",66,66],[2,"NUE",67,68],[2,"MRNA",66,73],[2,"APA",74,77],[2,"DVN",69,82],[2,"ENPH",83,83],[2,"OXY",78,85],[2,"MPC",86,87],[2,"FSLR",84,90],[2,"META",91,95],[2,"PDD",96,96],[2,"CRWD",97,102],[2,"GE",103,103],[2,"NRG",104,105],[2,"CEG",106,106],[2,"NVDA",88,107],[2,"AXON",107,107],[2,"MSTR",108,108],[2,"APP",108,118],[2,"PLTR",109,119],[2,"WDC",119,127],[2,"SNDK",120,128],[2,"LITE",128,128],[3,"REC.MI",0,1],[3,"RHM.DE",0,5],[3,"HO.PA",6,7],[3,"MTS.MC",8,9],[3,"ADS.DE",2,10],[3,"STMPA.PA",10,19],[3,"STMMI.MI",11,20],[3,"BESI.AS",20,24],[3,"FDR.MC",21,26],[3,"SLR.MC",27,40],[3,"EDEN.PA",41,42],[3,"ARGX.BR",25,44],[3,"CLNX.MC",45,50],[3,"ASM.AS",43,52],[3,"CLNX.MC",53,53],[3,"ADYEN.AS",54,62],[3,"SLR.MC",51,63],[3,"ADYEN.AS",64,64],[3,"MT.AS",65,65],[3,"FDR.MC",66,68],[3,"SAB.MC",69,69],[3,"STLAP.PA",63,71],[3,"IMCD.AS",72,72],[3,"ASM.AS",70,73],[3,"STLAP.PA",73,74],[3,"ENI.MI",74,74],[3,"SHELL.AS",75,75],[3,"TEN.MI",76,77],[3,"SHELL.AS",78,80],[3,"ARGX.BR",81,83],[3,"TEN.MI",84,85],[3,"RHM.DE",75,87],[3,"BC.MI",88,88],[3,"UCG.MI",86,96],[3,"BPSO.MI",97,98],[3,"BESI.AS",89,99],[3,"LDO.MI",99,99],[3,"ROVI.MC",100,100],[3,"RHM.DE",100,101],[3,"LDO.MI",101,101],[3,"ROVI.MC",102,102],[3,"UNI.MI",103,103],[3,"BMPS.MI",104,104],[3,"UNI.MI",105,108],[3,"IAG.MC",109,110],[3,"ENR.DE",102,118],[3,"RHM.DE",111,119],[3,"ENR.DE",120,124],[3,"SLR.MC",119,126],[3,"STMPA.PA",125,128],[3,"ASML.AS",127,128]],"blocks":["Índice global","Sectores USA","Acciones USA","Acciones Europa"]};
+const MES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+/* ---- Tema: el cambio de modo lo gestiona tai.js; aquí solo se repintan los gráficos ---- */
+$('#themeToggle').addEventListener('click',()=>themeCharts());
+
+/* ---- Gráfico: evolución acumulada real, escala logarítmica ---- */
+const charts={};
+function defaults(){if(!hasChart)return;Chart.defaults.font.family="Inter, system-ui, sans-serif";Chart.defaults.color=css('--muted');Chart.defaults.borderColor=css('--line');Chart.defaults.animation.duration=reduced?0:900}
+const tip=()=>({backgroundColor:css('--surface'),titleColor:css('--text'),bodyColor:css('--text'),borderColor:css('--line-2'),borderWidth:1,padding:10,cornerRadius:10,boxPadding:4});
+function series(){
+  const labels=['dic 2015'],values=[100],rets=[null];let v=100;
+  Object.keys(GEDA).forEach(y=>GEDA[y].forEach((r,i)=>{v*=1+r/100;labels.push(MES[i]+' '+y);values.push(+v.toFixed(2));rets.push(r)}));
+  let p=-Infinity;const peaks=values.map(x=>p=Math.max(p,x));return{labels,values,peaks,rets};
+}
+let COLOR=css('--c-geda');const negFill=al=>`rgba(${css('--neg-rgb')},${al})`;
+if(hasChart){
+  defaults();const d=series();
+  charts.g=new Chart($('#gedaChart'),{type:'line',
+    data:{labels:d.labels,datasets:[
+      {label:'Máximo previo',data:d.peaks,borderWidth:0,pointRadius:0,fill:false,borderColor:'transparent'},
+      {label:'Zona de caída',data:d.values,borderWidth:0,pointRadius:0,borderColor:'transparent',backgroundColor:negFill(.45),fill:{target:0,above:'rgba(0,0,0,0)',below:negFill(.28)}},
+      {label:'Evolución acumulada (base 100)',data:d.values,borderColor:COLOR,borderWidth:2.25,tension:0,pointHoverRadius:5,
+        pointRadius:c=>c.dataIndex===c.dataset.data.length-1?4:0,pointBackgroundColor:COLOR,fill:'start',
+        backgroundColor:c=>{const a=c.chart.chartArea;if(!a)return alpha(COLOR,.15);const g=c.chart.ctx.createLinearGradient(0,a.top,0,a.bottom);g.addColorStop(0,alpha(COLOR,.35));g.addColorStop(1,alpha(COLOR,0));return g}}]},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{right:8}},interaction:{mode:'index',intersect:false},
+      scales:{x:{display:true,grid:{display:false},ticks:{autoSkip:false,maxRotation:0,font:{size:11},callback:function(v){const l=this.getLabelForValue(v);if(!l.startsWith('ene'))return '';const yr=+l.slice(-4);return yr%2===0?String(yr):''}}},
+        y:{type:'logarithmic',grid:{color:alpha('#8899bb',.12)},afterBuildTicks:ax=>{const n=[10,20,50,100,200,500,1000,2000,5000,10000];ax.ticks=ax.ticks.filter(t=>n.includes(Math.round(t.value)))},ticks:{callback:v=>fmt(v,0)}}},
+      plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,boxHeight:10,usePointStyle:true,filter:i=>i.datasetIndex!==0}},
+        tooltip:{...tip(),filter:i=>i.datasetIndex===2,callbacks:{title:c=>c[0].label,label:c=>' Valor: '+fmt(c.parsed.y),
+          afterLabel:c=>{const i=c.dataIndex,r=d.rets[i],pk=d.peaks[i],o=[];if(r!==null)o.push(' Mes: '+pc(r,2));const cur=c.parsed.y/pk-1;if(cur<-0.0005)o.push(' Desde máximo: '+fmt(cur*100)+'%');return o}}}}}});
+}
+function themeCharts(){renderHeat();if(!hasChart)return;COLOR=css('--c-geda');defaults();
+  if(charts.g){const ds=charts.g.data.datasets;ds[2].borderColor=COLOR;ds[2].pointBackgroundColor=COLOR;ds[1].backgroundColor=negFill(.45);ds[1].fill={target:0,above:'rgba(0,0,0,0)',below:negFill(.28)}}Object.values(charts).forEach(c=>{Object.assign(c.options.plugins.tooltip,tip());Object.values(c.options.scales).forEach(s=>{if(s.ticks)s.ticks.color=css('--muted')});c.options.plugins.legend.labels.color=css('--muted');c.update('none')})}
+
+/* ---- Mapa de calor mensual ---- */
+function renderHeat(){
+  const t=$('#heat');let h='<thead><tr><th scope="col" style="text-align:left;padding-left:.8rem">Año</th>'+MES.map(m=>`<th scope="col">${m}</th>`).join('')+'<th scope="col">Año</th></tr></thead><tbody>';
+  const pr=css('--pos-rgb'),nr=css('--neg-rgb');
+  const color=v=>v>=0?`rgba(${pr},${Math.min(.6,.08+v/25*.52).toFixed(2)})`:`rgba(${nr},${Math.min(.65,.1+Math.abs(v)/12*.55).toFixed(2)})`;
+  Object.keys(GEDA).forEach(y=>{
+    const r=GEDA[y],yr=(YX[y]!==undefined?YX[y]:(r.reduce((a,x)=>a*(1+x/100),1)-1)*100);
+    const tag=REAL_FROM===null?'':(+y>=REAL_FROM?'<span class="tag-s real">Real</span>':'<span class="tag-s sim">Simulado</span>');
+    h+=`<tr><th scope="row">${y}${y==='2026'?'*':''}${tag}</th>`+MES.map((m,i)=>i<r.length?`<td class="mono" style="background:${color(r[i])}">${fmt(Math.abs(r[i])<0.05?0:r[i],1)}</td>`:'<td></td>').join('')+`<td class="mono yr" style="background:${color(yr/4)}">${pc(yr)}</td></tr>`;
+  });
+  t.innerHTML=h+'</tbody>';
+  const n=$('#realNote');
+  if(REAL_FROM!==null){n.innerHTML=`<div class="callout"><svg class="icon"><use href="#i-alert"/></svg><p><strong>*2026 incluye solo enero–septiembre.</strong> Los años anteriores a ${REAL_FROM} (2016–${REAL_FROM-1}) son una simulación de las reglas sobre datos pasados; desde ${REAL_FROM} la estrategia se aplica con dinero real. Rentabilidad anualizada del tramo simulado: +41,6%; del tramo con dinero real: +39,3%.</p></div>`}
+  else{n.innerHTML='<p class="fineprint centered" style="margin-top:.8rem">*2026 incluye solo enero–septiembre.</p>'}
+}
+renderHeat();
+
+
+/* ---- Línea de tiempo de posiciones ---- */
+(function(){
+  const root=$('#timeline');if(!root||!POS)return;
+  const n=POS.labels.length;root.style.setProperty('--n',n);
+  const fit=Math.floor((root.parentElement.clientWidth-34)/n*10)/10;root.style.setProperty('--pm',(fit>=8?fit:9)+'px');
+  const mname=i=>{const [y,m]=POS.labels[i].split('-');return MES[m-1]+' '+y};
+  const h0=+css('--tl-h0'),hr=+css('--tl-hr'),ts=css('--tl-s'),tlum=css('--tl-l');
+  const color=t=>{let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))%360;return `hsl(${h0+h%hr} ${ts}% ${tlum}%)`};
+  let html='<div class="tl-axis">';
+  POS.labels.forEach((l,i)=>{const [y,m]=l.split('-');if(+m===1)html+=`<span style="left:calc(${i} * var(--pm))">${y}</span>`});
+  html+='</div>';
+  POS.blocks.forEach((name,k)=>{
+    const st=POS.stints.filter(s=>s[0]===k).sort((x,y)=>x[2]-y[2]);
+    const lanes=[-1,-1],place=[];
+    st.forEach(s=>{let L=lanes.findIndex(e=>e<s[2]);if(L<0)L=0;lanes[L]=s[3];place.push([s,L])});
+    const nl=k===0?1:2;
+    html+=`<div class="tl-row"><h4>${name}</h4><div class="tl-track" style="--lanes:${nl}">`;
+    place.forEach(([s,L])=>{const len=s[3]-s[2]+1;const lab=len>=3?s[1]:'';
+      html+=`<div class="tl-bar" style="left:calc(${s[2]} * var(--pm));width:calc(${len} * var(--pm) - 1px);top:${L*26}px;background:${color(s[1])}" title="${s[1]} · ${mname(s[2])} – ${mname(s[3])} (${len} ${len===1?'mes':'meses'})">${lab}</div>`});
+    html+='</div></div>';
+  });
+  root.innerHTML=html;
+  const w=root.parentElement;requestAnimationFrame(()=>{if(innerWidth<760)w.scrollLeft=w.scrollWidth});
+})();
+
+/* ---- FAQ ---- */
+const FAQ=[["¿Cuántos cambios tiene la cartera a lo largo del año?", "Entre 2017 y 2025, GEDA ha hecho de media unas 14 sustituciones de posiciones al año (entre 8 y 22), repartidas en aproximadamente 7 de cada 10 meses. 2025 fue el año con menos cambios de su historia (8 sustituciones). Cada mes el sistema indica exactamente qué comprar y qué vender; si no hay cambios, no hay que hacer nada. Estos cambios implican comisiones y pueden tener efecto fiscal, y las rentabilidades publicadas no los incluyen."], ["¿Qué ETF uso desde España?", "Para la parte de índices y sectores se utilizan ETF en formato UCITS, que cumplen la normativa europea (MiFID II) y permiten una gestión eficiente desde España. Muchos ETF estadounidenses no están disponibles para inversores europeos; en ese caso, la alternativa habitual es un ETF UCITS que siga el mismo índice o sector. No respondo consultas sobre qué producto concreto usar en cada caso: la información es la misma para todos."], ["¿Qué pasa si todo el mercado cae?", "GEDA no tiene un filtro de momentum positivo: siempre mantiene 7 posiciones y elige las más fuertes de cada categoría, aunque esas posiciones estén cayendo. No pasa a efectivo, por lo que en mercados bajistas puede sufrir caídas, como la del -19,6% de 2018."], ["¿Cuánto puede llegar a caer?", "La mayor caída histórica de la estrategia, medida con cierres mensuales, es del -19,6%. En 129 meses ha habido 3 con caídas superiores al 10%. Son datos pasados: una caída futura puede ser mayor."], ["¿Es asesoramiento financiero?", "No. La información es meramente informativa y no constituye asesoramiento financiero ni una recomendación personalizada. Cada inversor debe hacer su propio análisis y decidir según su situación personal."]];
+$('#faqList').innerHTML=FAQ.map((f,i)=>`<div class="qa reveal in"><h3><button type="button" aria-expanded="false" aria-controls="fa${i}" id="fq${i}">${f[0]}<svg class="icon"><use href="#i-plus"/></svg></button></h3><div class="ans" id="fa${i}" role="region" aria-labelledby="fq${i}"><div><p>${f[1]}</p></div></div></div>`).join('');
+$$('.qa button').forEach(b=>b.addEventListener('click',()=>{const o=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',o);b.closest('.qa').classList.toggle('open',o)}));
+
+if(window.TAI&&TAI.initForm)TAI.initForm();
+});
+
+</script>
+</body>
+</html>
